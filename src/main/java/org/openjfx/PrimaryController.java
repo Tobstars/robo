@@ -13,6 +13,7 @@ public class PrimaryController {
     ImageView robotEnd;
     @FXML
     Label info;
+    String infoCache;
     boolean placementFinished;
     boolean dragging;
 
@@ -44,6 +45,7 @@ public class PrimaryController {
     private void showRobotStartName() {
         // Only show text if robot was placed before and if is is not dragged at the moment
         if (placementFinished && !dragging) {
+            infoCache = info.getText();
             info.setText("Currently selected: Start Placement");
         }
     }
@@ -52,6 +54,7 @@ public class PrimaryController {
     private void showRobotEndName() {
         // Only show text if robot was placed before and if it is not dragged at the moment
         if (placementFinished && !dragging) {
+            infoCache = info.getText();
             info.setText("Currently selected: End Placement");
         }
     }
@@ -60,13 +63,17 @@ public class PrimaryController {
     private void setPlacingFinished() {
         placementFinished = true;
         dragging = false;
-        clearInfo();
+        info.setText("Great! Now you can plan the motion");
     }
 
     @FXML
     private void clearInfo() {
         if (placementFinished) {
-            info.setText("");
+            if (infoCache.isEmpty()) {
+                info.setText("");
+            } else {    // Else show the text that was displayed before
+                info.setText(infoCache);
+            }
         }
     }
 
