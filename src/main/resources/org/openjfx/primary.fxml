@@ -4,28 +4,42 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.PrimaryController">
    <children>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="964.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Button">
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Plan motion">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Button">
+            <Button mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="119.0" text="Reset">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin></Button>
          </children></HBox>
+      <Label fx:id="info" alignment="CENTER" prefHeight="17.0" prefWidth="338.0" text="Place the robot on the starting position">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
       <Pane prefHeight="485.0" prefWidth="964.0">
          <children>
-            <ImageView fitHeight="583.0" fitWidth="787.0" layoutX="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="541.0" fitWidth="765.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/room.bmp" />
                </image>
             </ImageView>
-            <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="425.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="robotStart" fitHeight="20.0" fitWidth="18.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobotStart" onMouseEntered="#showRobotStartName" onMouseExited="#clearInfo" onMouseReleased="#showRobotEnd" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/robot.bmp" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="robotEnd" fitHeight="20.0" fitWidth="18.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobotEnd" onMouseEntered="#showRobotEndName" onMouseExited="#clearInfo" onMouseReleased="#setPlacingFinished" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../images/robot.bmp" />
                </image>
