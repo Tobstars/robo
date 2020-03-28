@@ -13,7 +13,7 @@ public class PrimaryController {
     ImageView robotEnd;
     @FXML
     Label info;
-    String infoCache;
+    String infoCache = "";
     boolean placementFinished;
     boolean dragging;
 
