@@ -43,19 +43,19 @@ public class PrimaryController {
 
     @FXML
     private void showRobotStartName() {
-        // Only show text if robot was placed before and if is is not dragged at the moment
-        if (placementFinished && !dragging) {
-            infoCache = info.getText();
-            info.setText("Currently selected: Start Placement");
-        }
+        showRobotName(RobotEnum.START);
     }
 
     @FXML
     private void showRobotEndName() {
-        // Only show text if robot was placed before and if it is not dragged at the moment
+        showRobotName(RobotEnum.END);
+    }
+
+    private void showRobotName(RobotEnum robot) {
         if (placementFinished && !dragging) {
             infoCache = info.getText();
-            info.setText("Currently selected: End Placement");
+            info.setText(robot.equals(RobotEnum.START) ?
+                    "Currently selected: Start Placement" : "Currently selected: End Placement");
         }
     }
 
