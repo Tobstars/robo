@@ -2,15 +2,23 @@ package org.openjfx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 
 public class PrimaryController {
 
+    // Robot on the start position
     @FXML
     ImageView robotStart;
+    // Robot on the end position
     @FXML
     ImageView robotEnd;
+    @FXML
+    ImageView env;
     @FXML
     Label info;
     boolean placementFinished;
@@ -79,6 +87,21 @@ public class PrimaryController {
         if (placementFinished) {
             info.setText("Great! Now you can plan the motion");
         }
+    }
+
+    @FXML
+    private void openFileChooser() {
+        // Open File Chooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load new environment");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Bitmap Files", "*.bmp")
+        );
+        File file = fileChooser.showOpenDialog(robotStart.getScene().getWindow());
+
+        // Load environment
+        Image image = new Image("file:///" + file.getAbsolutePath());
+        env.setImage(image);
     }
 
     @FXML

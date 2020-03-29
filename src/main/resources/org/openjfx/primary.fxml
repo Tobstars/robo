@@ -14,10 +14,11 @@
    <children>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="964.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Plan motion">
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Plan Motion">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#openFileChooser" prefHeight="30.0" prefWidth="119.0" text="Load Environment" />
             <Button mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="119.0" text="Reset">
                <HBox.margin>
                   <Insets left="20.0" />
@@ -33,11 +34,15 @@
       </Label>
       <Pane prefHeight="485.0" prefWidth="964.0">
          <children>
-            <ImageView fitHeight="541.0" fitWidth="765.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/room.bmp" />
-               </image>
-            </ImageView>
+            <VBox alignment="CENTER" prefHeight="541.0" prefWidth="964.0">
+               <children>
+                  <ImageView fx:id="env" fitHeight="541.0" fitWidth="765.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/room.bmp" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
             <ImageView fx:id="robotStart" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotStartName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#showRobotEnd" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/robot.bmp" />
