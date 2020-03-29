@@ -16,24 +16,32 @@ public class PrimaryController {
     String infoCache = "";
     boolean placementFinished;
     boolean dragging;
+    double sceneX, sceneY;
+    double translateX, translateY;
 
     @FXML
-    private void dragRobotStart(MouseEvent e) {
+    // Mouse click before dragging
+    private void onMousePressed(MouseEvent e) {
+        sceneX = e.getSceneX();
+        sceneY = e.getSceneY();
+        translateX = ((ImageView) (e.getSource())).getTranslateX();
+        translateY = ((ImageView) (e.getSource())).getTranslateY();
+
         dragging = true;
-        robotStart.setX(e.getX());
-        robotStart.setY(e.getY());
     }
 
     @FXML
-    private void dragRobotEnd(MouseEvent e) {
-        dragging = true;
-        robotEnd.setX(e.getX());
-        robotEnd.setY(e.getY());
+    private void dragRobot(MouseEvent e) {
+        double offsetX = e.getSceneX() - sceneX;
+        double offsetY = e.getSceneY() - sceneY;
+
+        ((ImageView) (e.getSource())).setTranslateX(translateX + offsetX);
+        ((ImageView) (e.getSource())).setTranslateY(translateY + offsetY);
     }
 
     @FXML
     private void showRobotEnd() {
-        // only show the robot end if the placement is not finished
+        // only show the robot "end" if the placement is not finished
         if (!placementFinished) {
             robotEnd.setVisible(true);
             info.setText("Place the robot on the end position");
@@ -64,12 +72,14 @@ public class PrimaryController {
         placementFinished = true;
         dragging = false;
         info.setText("Great! Now you can plan the motion");
+        infoCache = "Great! Now you can plan the motion";
     }
 
     @FXML
     private void clearInfo() {
         if (placementFinished) {
-            if (infoCache.isEmpty()) {
+            // If the cache is empty -> clear info
+            if (infoCache.equals("")) {
                 info.setText("");
             } else {    // Else show the text that was displayed before
                 info.setText(infoCache);
@@ -82,11 +92,11 @@ public class PrimaryController {
         info.setText("Place the robot on the start position");
         placementFinished = false;
 
-        robotStart.setX(0);
-        robotStart.setY(0);
+        robotStart.setTranslateX(0);
+        robotStart.setTranslateY(0);
 
         robotEnd.setVisible(false);
-        robotEnd.setX(0);
-        robotEnd.setY(0);
+        robotEnd.setTranslateX(0);
+        robotEnd.setTranslateY(0);
     }
 }
