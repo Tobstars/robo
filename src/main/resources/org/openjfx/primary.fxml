@@ -38,12 +38,12 @@
                   <Image url="@../../images/room.bmp" />
                </image>
             </ImageView>
-            <ImageView fx:id="robotStart" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotStartName" onMouseExited="#clearInfo" onMousePressed="#onMousePressed" onMouseReleased="#showRobotEnd" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="robotStart" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotStartName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#showRobotEnd" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/robot.bmp" />
                </image>
             </ImageView>
-            <ImageView fx:id="robotEnd" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotEndName" onMouseExited="#clearInfo" onMousePressed="#onMousePressed" onMouseReleased="#setPlacingFinished" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="robotEnd" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotEndName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#setPlacingFinished" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../images/robot.bmp" />
                </image>

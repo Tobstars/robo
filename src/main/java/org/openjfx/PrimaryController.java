@@ -13,9 +13,9 @@ public class PrimaryController {
     ImageView robotEnd;
     @FXML
     Label info;
-    String infoCache = "";
     boolean placementFinished;
     boolean dragging;
+    boolean selected;
     double sceneX, sceneY;
     double translateX, translateY;
 
@@ -61,7 +61,7 @@ public class PrimaryController {
 
     private void showRobotName(RobotEnum robot) {
         if (placementFinished && !dragging) {
-            infoCache = info.getText();
+            selected = true;
             info.setText(robot.equals(RobotEnum.START) ?
                     "Currently selected: Start Placement" : "Currently selected: End Placement");
         }
@@ -72,18 +72,12 @@ public class PrimaryController {
         placementFinished = true;
         dragging = false;
         info.setText("Great! Now you can plan the motion");
-        infoCache = "Great! Now you can plan the motion";
     }
 
     @FXML
-    private void clearInfo() {
+    private void onMouseExited() {
         if (placementFinished) {
-            // If the cache is empty -> clear info
-            if (infoCache.equals("")) {
-                info.setText("");
-            } else {    // Else show the text that was displayed before
-                info.setText(infoCache);
-            }
+            info.setText("Great! Now you can plan the motion");
         }
     }
 
