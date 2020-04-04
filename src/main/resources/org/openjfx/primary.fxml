@@ -1,59 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.PrimaryController">
-   <children>
-      <HBox alignment="CENTER" prefHeight="55.0" prefWidth="964.0">
+
+<SplitPane dividerPositions="0.94" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.PrimaryController">
+  <items>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Plan Motion">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin></Button>
-            <Button mnemonicParsing="false" onAction="#openFileChooser" prefHeight="30.0" prefWidth="119.0" text="Load Environment" />
-            <Button mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="119.0" text="Reset">
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin></Button>
-         </children></HBox>
-      <Label fx:id="info" alignment="CENTER" prefHeight="17.0" prefWidth="338.0" text="Place the robot on the starting position">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Pane prefHeight="485.0" prefWidth="964.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="541.0" prefWidth="964.0">
+            <Label fx:id="info" alignment="CENTER" prefHeight="0.0" prefWidth="338.0" text="Place the robot on the starting position">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <StackPane prefHeight="867.0" prefWidth="1067.0">
                <children>
-                  <ImageView fx:id="env" fitHeight="541.0" fitWidth="765.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="env" fitHeight="574.0" fitWidth="827.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
                      <image>
                         <Image url="@../../images/room.bmp" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="robotStart" fitHeight="14.0" fitWidth="14.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotStartName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#showRobotEnd" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../../images/robot.bmp" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="robotEnd" fitHeight="14.0" fitWidth="14.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotEndName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#setPlacingFinished" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../../images/robot.bmp" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
-            </VBox>
-            <ImageView fx:id="robotStart" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotStartName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#showRobotEnd" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/robot.bmp" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="robotEnd" fitHeight="14.0" fitWidth="14.0" layoutX="425.0" layoutY="90.0" onMouseDragged="#dragRobot" onMouseEntered="#showRobotEndName" onMouseExited="#onMouseExited" onMousePressed="#onMousePressed" onMouseReleased="#setPlacingFinished" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../../images/robot.bmp" />
-               </image>
-            </ImageView>
+            </StackPane>
          </children>
-      </Pane>
-   </children>
-</VBox>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#openFileChooser" prefHeight="30.0" prefWidth="119.0" text="Load Environment" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Plan Motion" />
+            <Button mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="119.0" text="Reset" />
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+  </items>
+</SplitPane>
