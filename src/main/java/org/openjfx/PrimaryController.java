@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import org.common.CollisionUtil;
 
 import java.io.File;
 
@@ -21,11 +22,18 @@ public class PrimaryController {
     ImageView env;
     @FXML
     Label info;
+    CollisionUtil collisionUtil;
     boolean placementFinished;
     boolean dragging;
     boolean selected;
     double sceneX, sceneY;
     double translateX, translateY;
+
+    @FXML
+    public void initialize() {
+        // Needed later for collision detection between robots and environment
+        collisionUtil = new CollisionUtil(robotStart.getImage());
+    }
 
     @FXML
     // Mouse click before dragging
