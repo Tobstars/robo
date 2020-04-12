@@ -11,7 +11,7 @@
   <items>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label fx:id="info" alignment="CENTER" prefHeight="0.0" prefWidth="338.0" text="Place the robot on the starting position">
+            <Label fx:id="info" alignment="CENTER" prefHeight="27.0" prefWidth="1013.0" text="Place the robot on the starting position">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
@@ -21,7 +21,7 @@
             </Label>
             <StackPane prefHeight="867.0" prefWidth="1067.0">
                <children>
-                  <ImageView fx:id="env" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
+                  <ImageView fx:id="env" fitWidth="850.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
                      <image>
                         <Image url="@../../images/room.bmp" />
                      </image>
@@ -48,9 +48,18 @@
       </VBox>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#openFileChooser" prefHeight="30.0" prefWidth="119.0" text="Load Environment" />
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Plan Motion" />
-            <Button mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="119.0" text="Reset" />
+            <Button mnemonicParsing="false" onAction="#openFileChooser" prefHeight="40.0" prefWidth="160.0" text="Load Environment">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" text="Plan Motion">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#reset" prefHeight="40.0" prefWidth="160.0" text="Reset">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children>
          <padding>
             <Insets top="10.0" />

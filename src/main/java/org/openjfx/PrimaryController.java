@@ -57,7 +57,13 @@ public class PrimaryController {
 
     @FXML
     private void showRobotEnd() {
-        // only show the robot "end" if the placement is not finished
+        // If the robot collides -> show warning text
+        if (collisionUtil.collidesWithEnv(robotStart, env)) {
+            info.setText("The robot is colliding with the environment. Please reposition the robot");
+            return;
+        }
+
+        // Only show the robot "end" if the placement is not finished
         if (!placementFinished) {
             robotEnd.setVisible(true);
             info.setText("Place the robot on the end position");
@@ -85,6 +91,12 @@ public class PrimaryController {
 
     @FXML
     private void setPlacingFinished() {
+        // If the robot collides -> show warning text
+        if (collisionUtil.collidesWithEnv(robotEnd, env)) {
+            info.setText("The robot is colliding with the environment. Please re-position the robot");
+            return;
+        }
+
         placementFinished = true;
         dragging = false;
         info.setText("Great! Now you can plan the motion");
@@ -92,7 +104,8 @@ public class PrimaryController {
 
     @FXML
     private void onMouseExited() {
-        if (placementFinished) {
+        if (placementFinished && !collisionUtil.collidesWithEnv(robotStart, env)
+                && !collisionUtil.collidesWithEnv(robotEnd, env)) {
             info.setText("Great! Now you can plan the motion");
         }
     }
