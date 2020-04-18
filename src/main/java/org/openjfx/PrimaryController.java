@@ -5,10 +5,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import org.common.CollisionUtil;
+import org.common.PathUtil;
+import org.models.Pixel;
 
 import java.io.File;
+import java.util.List;
 
 public class PrimaryController {
 
@@ -123,6 +127,13 @@ public class PrimaryController {
         // Load environment
         Image image = new Image("file:///" + file.getAbsolutePath());
         env.setImage(image);
+    }
+
+    @FXML
+    private void calculatePath() {
+        List<Pixel> pathPixels = PathUtil.calculatePath(env);
+
+
     }
 
     @FXML

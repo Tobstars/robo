@@ -20,49 +20,18 @@ public class CollisionUtil {
     // Check if the robot collides with the environment
     public boolean collidesWithEnv(ImageView robot, ImageView env) {
         // Check for all pixels of the robot if it collides with the environment
-        for (int i = 0; i < blackPixelsRobot.size(); i++) {
-            Pair<Double, Double> coordinate = calculateCoordinatesOnEnv(robot, env, i);
+        for (Pixel pixel : blackPixelsRobot) {
+            Pair<Integer, Integer> coordinate =
+                    PixelConverterUtil.getCoordinateOnEnv(robot, pixel.getX(), pixel.getY(), env);
 
             // Check the calculated coordinate for collision
-            Color color = env.getImage().getPixelReader().
-                    getColor((int) coordinate.getKey().doubleValue(), (int) coordinate.getValue().doubleValue());
+            Color color = env.getImage().getPixelReader().getColor(coordinate.getKey(), coordinate.getValue());
             // If color is black -> there is collision
             if (color.equals(Color.BLACK)) {
                 return true;
             }
         }
         return false;
-    }
-
-    // Calculate global coordinates of a pixel on the environment
-    private Pair<Double, Double> calculateCoordinatesOnEnv(ImageView robot, ImageView env, int i) {
-        // Calculate coordinates of the robot origin
-        Bounds robotBoundInParent = robot.getBoundsInParent();
-        int robotGlobalOriginX = (int) robotBoundInParent.getMinX();
-        int robotGlobalOriginY = (int) robotBoundInParent.getMinY();
-        double robotPixelWidth = robot.getFitWidth() / robot.getImage().getWidth();
-        double robotPixelHeight = robot.getFitHeight() / robot.getImage().getHeight();
-
-        // Exact global coordinates of the pixel in the scene (not on the env) = origin of the image + pixel offset
-        // The local coordinates of the pixel is used to calculate the global coordinates
-        double globalPixelX = robotGlobalOriginX + blackPixelsRobot.get(i).getX() * robotPixelWidth;
-        double globalPixelY = robotGlobalOriginY + blackPixelsRobot.get(i).getY() * robotPixelHeight;
-
-        // Calculate coordinates of the env origin
-        Bounds envBoundInParent = env.getBoundsInParent();
-        int envGlobalOriginX = (int) envBoundInParent.getMinX();
-        int envGlobalOriginY = (int) envBoundInParent.getMinY();
-        double globalXOnEnv = globalPixelX - envGlobalOriginX;
-        double globalYOnEnv = globalPixelY - envGlobalOriginY;
-
-        // Calculate local coordinates of env
-        double envPixelWidth = env.getFitWidth() / env.getImage().getWidth();
-        // Height of env has to be calculated with getBoundsInParent() because height gets calculated during runtime
-        double envPixelHeight = env.getBoundsInParent().getHeight() / env.getImage().getHeight();
-        double localEnvX = globalXOnEnv / envPixelWidth;
-        double localEnvY = globalYOnEnv / envPixelHeight;
-
-        return new Pair<>(localEnvX, localEnvY);
     }
 
     private List<Pixel> getBlackPixels(Image robot) {
