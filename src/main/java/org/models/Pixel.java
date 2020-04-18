@@ -1,27 +1,27 @@
 package org.models;
 
-public class Pixel {
-    private int x;
-    private int y;
+public class Pixel<T extends Number> {
+    private T x;
+    private T y;
 
-    public Pixel(int x, int y) {
+    public Pixel(T x, T y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public T getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(T x) {
         this.x = x;
     }
 
-    public int getY() {
+    public T getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(T y) {
         this.y = y;
     }
 }

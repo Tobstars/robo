@@ -1,14 +1,16 @@
 package org.openjfx;
 
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import org.common.CollisionUtil;
-import org.common.PathUtil;
+import org.services.CollisionUtil;
+import org.services.DrawUtil;
+import org.services.PathUtil;
 import org.models.Pixel;
 
 import java.io.File;
@@ -26,7 +28,14 @@ public class PrimaryController {
     ImageView env;
     @FXML
     Label info;
+    @FXML
+    StackPane pane;
+    @FXML
+    Canvas pathCanvas;
+
     CollisionUtil collisionUtil;
+    DrawUtil drawUtil = new DrawUtil();
+
     boolean placementFinished;
     boolean dragging;
     boolean selected;
@@ -131,9 +140,11 @@ public class PrimaryController {
 
     @FXML
     private void calculatePath() {
-        List<Pixel> pathPixels = PathUtil.calculatePath(env);
-
-
+        if (!placementFinished) {
+            return;
+        }
+        List<Pixel<Integer>> pathPixels = PathUtil.calculatePath();
+        drawUtil.drawPath(pathCanvas, pane, pathPixels, robotStart);
     }
 
     @FXML

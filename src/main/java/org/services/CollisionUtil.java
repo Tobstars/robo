@@ -1,6 +1,5 @@
-package org.common;
+package org.services;
 
-import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionUtil {
-    List<Pixel> blackPixelsRobot;
+    List<Pixel<Integer>> blackPixelsRobot;
 
     public CollisionUtil(Image robot) {
         this.blackPixelsRobot = getBlackPixels(robot);
@@ -20,7 +19,7 @@ public class CollisionUtil {
     // Check if the robot collides with the environment
     public boolean collidesWithEnv(ImageView robot, ImageView env) {
         // Check for all pixels of the robot if it collides with the environment
-        for (Pixel pixel : blackPixelsRobot) {
+        for (Pixel<Integer> pixel : blackPixelsRobot) {
             Pair<Integer, Integer> coordinate =
                     PixelConverterUtil.getCoordinateOnEnv(robot, pixel.getX(), pixel.getY(), env);
 
@@ -34,8 +33,8 @@ public class CollisionUtil {
         return false;
     }
 
-    private List<Pixel> getBlackPixels(Image robot) {
-        List<Pixel> pixels = new ArrayList<>();
+    private List<Pixel<Integer>> getBlackPixels(Image robot) {
+        List<Pixel<Integer>> pixels = new ArrayList<>();
 
         // Iterate through robot
         for (int i = 0; i < (int) robot.getWidth(); i++) {
@@ -43,7 +42,7 @@ public class CollisionUtil {
                 // Only save black pixels
                 Color color = robot.getPixelReader().getColor(i, j);
                 if (color.equals(Color.BLACK)) {
-                    Pixel pixel = new Pixel(i, j);
+                    Pixel<Integer> pixel = new Pixel<>(i, j);
                     pixels.add(pixel);
                 }
             }
