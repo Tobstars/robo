@@ -8,9 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import org.services.CollisionUtil;
-import org.services.DrawUtil;
-import org.services.PathUtil;
+import org.models.ConfigSpace;
+import org.models.Vector;
+import org.models.Workspace;
 import org.models.Pixel;
 
 import java.io.File;
@@ -32,9 +32,14 @@ public class PrimaryController {
     StackPane pane;
     @FXML
     Canvas pathCanvas;
+    @FXML
+    StackPane csPane;
+    Canvas csCanvas;
 
-    CollisionUtil collisionUtil;
-    DrawUtil drawUtil = new DrawUtil();
+
+    // MODELS
+    Workspace workspace;
+    ConfigSpace configSpace = new ConfigSpace();
 
     boolean placementFinished;
     boolean dragging;
@@ -44,8 +49,10 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
-        // Needed later for collision detection between robots and environment
-        collisionUtil = new CollisionUtil(robotStart.getImage());
+        workspace = new Workspace(env.getImage(), robotStart.getImage());
+
+        configSpace.createConfigSpace(workspace);
+        csCanvas = configSpace.createConfigSpaceCanvas(csPane);
     }
 
     @FXML
@@ -71,7 +78,7 @@ public class PrimaryController {
     @FXML
     private void showRobotEnd() {
         // If the robot collides -> show warning text
-        if (collisionUtil.collidesWithEnv(robotStart, env)) {
+        if (workspace.isInCollision(robotStart, env, null)) {
             info.setText("The robot is colliding with the environment. Please reposition the robot");
             return;
         }
@@ -105,7 +112,7 @@ public class PrimaryController {
     @FXML
     private void setPlacingFinished() {
         // If the robot collides -> show warning text
-        if (collisionUtil.collidesWithEnv(robotEnd, env)) {
+        if (workspace.isInCollision(robotEnd, env, null)) {
             info.setText("The robot is colliding with the environment. Please re-position the robot");
             return;
         }
@@ -117,8 +124,8 @@ public class PrimaryController {
 
     @FXML
     private void onMouseExited() {
-        if (placementFinished && !collisionUtil.collidesWithEnv(robotStart, env)
-                && !collisionUtil.collidesWithEnv(robotEnd, env)) {
+        if (placementFinished && !workspace.isInCollision(robotStart, env, null)
+                && !workspace.isInCollision(robotEnd, env, null)) {
             info.setText("Great! Now you can plan the motion");
         }
     }
@@ -136,6 +143,7 @@ public class PrimaryController {
         // Load environment
         Image image = new Image("file:///" + file.getAbsolutePath());
         env.setImage(image);
+        workspace.setEnv(workspace.loadBitImageFromImage(image));
     }
 
     @FXML
@@ -143,8 +151,19 @@ public class PrimaryController {
         if (!placementFinished) {
             return;
         }
-        List<Pixel<Integer>> pathPixels = PathUtil.calculatePath();
-        drawUtil.drawPath(pathCanvas, pane, pathPixels, robotStart);
+        // Clear config space canvas
+        csCanvas.getGraphicsContext2D().clearRect(0, 0, csCanvas.getWidth(), csCanvas.getHeight());
+
+        Vector initialConfig = new Vector((int) robotStart.getTranslateX(), (int) robotStart.getTranslateY());
+        configSpace.setAndDrawInitialConfig(initialConfig, csCanvas);
+        Vector goalConfig = new Vector((int) robotEnd.getTranslateX(), (int) robotEnd.getTranslateY());
+        configSpace.setAndDrawGoalConfig(goalConfig, csCanvas);
+
+        configSpace.initSolutionPath();
+        configSpace.drawSolutionPath(csCanvas);
+
+        // Show slider and robot's movement
+        workspace.drawRobotOnSolutionPath(configSpace.getSolutionPath(), pane, robotStart);
     }
 
     @FXML

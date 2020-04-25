@@ -1,4 +1,4 @@
-package org.services;
+package org.common;
 
 import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
@@ -22,9 +22,5 @@ public class PixelConverterUtil {
         int globalPixelY = robotGlobalOriginY + pixelY;
 
         return new Pair<>(globalPixelX, globalPixelY);
-    }
-
-    public static Pixel<Double> getGlobalRobotCenterPixel(int x, int y) {
-        return new Pixel<>(x - robotCenterX, y - robotCenterY);
     }
 }
