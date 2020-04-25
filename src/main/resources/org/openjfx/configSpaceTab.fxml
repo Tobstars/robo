@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label fx:id="info" alignment="CENTER" text="Place the robot on the starting position">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <StackPane fx:id="pane">
+            <children>
+                <ImageView fx:id="env" fitHeight="980.0" fitWidth="1350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                    <image>
+                        <Image url="@../../images/room.bmp" />
+                    </image>
+                </ImageView>
+                <Canvas fx:id="pathCanvas" height="980.0" width="1350.0" StackPane.alignment="TOP_LEFT" />
+                <ImageView fx:id="robotStart" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                    <image>
+                        <Image url="@../../images/robot.bmp" />
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ImageView>
+                <ImageView fx:id="robotEnd" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" visible="false" StackPane.alignment="TOP_LEFT">
+                    <image>
+                        <Image url="@../../images/robot.bmp" />
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ImageView>
+            </children>
+        </StackPane>
+    </children>
+</VBox>
