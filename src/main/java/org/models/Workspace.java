@@ -20,6 +20,9 @@ public class Workspace {
     int[][] robot;
     private Slider pathSlider;
 
+    public static final int WIDTH = 1350;
+    public static final int HEIGHT = 980;
+
     public Workspace(Image env, Image robot) {
         this.env = loadBitImageFromImage(env);
         this.robot = loadBitImageFromImage(robot);
@@ -56,25 +59,23 @@ public class Workspace {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                bitImage[i][j] = image.getPixelReader().getColor(i,j).equals(Color.BLACK) ? 1 : 0;
+                bitImage[i][j] = image.getPixelReader().getColor(i, j).equals(Color.WHITE) ? 0 : 1;
             }
         }
         return bitImage;
     }
 
-    public boolean isInCollision(ImageView robot, ImageView env, Vector config) {
-        for (int x = 0; x < robot.getImage().getWidth(); x++) {
-            for (int y = 0; y < robot.getImage().getHeight(); y++) {
+    public boolean isInCollision(Vector config) {
+        for (int x = 0; x < robot.length; x++) {
+            for (int y = 0; y < robot[0].length; y++) {
                 // Only check black pixels of the robot
-                if (robot.getImage().getPixelReader().getColor(x,y).equals(Color.WHITE)) {
+                if (robot[x][y] == 0) {
                     continue;
                 }
-                Pair<Integer, Integer> coordinate = PixelConverterUtil.getCoordinateOnEnv(robot, x, y, env);
+                Pair<Integer, Integer> coordinateOnEnvironment = new Pair<>(config.x + x, config.y + y);
 
-                // Check the calculated coordinate for collision
-                Color color = env.getImage().getPixelReader().getColor(coordinate.getKey(), coordinate.getValue());
                 // If color is black -> there is collision
-                if (color.equals(Color.BLACK)) {
+                if (env[coordinateOnEnvironment.getKey()][coordinateOnEnvironment.getValue()] == 1) {
                     return true;
                 }
             }

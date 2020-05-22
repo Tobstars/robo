@@ -19,5 +19,7 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:14" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:14" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:14" level="project" />
+    <orderEntry type="library" name="Maven: org.jgrapht:jgrapht-core:1.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jheaps:jheaps:0.11" level="project" />
   </component>
 </module>

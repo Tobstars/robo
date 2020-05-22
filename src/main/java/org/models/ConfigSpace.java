@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import org.models.services.SPRMMotionPlanner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class ConfigSpace {
     Vector goalConfig = new Vector(0, 0);
     List<Vector> solutionPath = new ArrayList<>();
     final int configRadius = 5;
+    public static int WIDTH = 3;
+    public static int HEIGHT = 3;
 
     public void setAndDrawInitialConfig(Vector config, Canvas canvas) {
         this.initialConfig = config;
@@ -47,6 +50,8 @@ public class ConfigSpace {
     public void createConfigSpace(Workspace workspace) {
         int width = workspace.getEnv().length - workspace.robot.length;
         int height = workspace.getEnv()[0].length - workspace.robot[0].length;
+        WIDTH = width;
+        HEIGHT = height;
         this.configSpace = new int[width][height];
     }
 
@@ -54,10 +59,13 @@ public class ConfigSpace {
 
     }
 
-    public void initSolutionPath() {
-        solutionPath = new ArrayList<>();
-        for (int i = 0; i < 600; i++) {
-            solutionPath.add(new Vector(i, i));
+    public void initSolutionPath(Vector initialConfig, Vector goalConfig, Workspace workspace) {
+        while (true) {
+            List<Vector> path = SPRMMotionPlanner.planMotion(initialConfig, goalConfig, 20, 6000, workspace);
+            if (path != null) {
+                solutionPath = path;
+                break;
+            }
         }
     }
 

@@ -8,13 +8,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import org.common.PixelConverterUtil;
 import org.models.ConfigSpace;
 import org.models.Vector;
 import org.models.Workspace;
-import org.models.Pixel;
 
 import java.io.File;
-import java.util.List;
 
 public class PrimaryController {
 
@@ -35,7 +34,6 @@ public class PrimaryController {
     @FXML
     StackPane csPane;
     Canvas csCanvas;
-
 
     // MODELS
     Workspace workspace;
@@ -78,7 +76,7 @@ public class PrimaryController {
     @FXML
     private void showRobotEnd() {
         // If the robot collides -> show warning text
-        if (workspace.isInCollision(robotStart, env, null)) {
+        if (workspace.isInCollision(PixelConverterUtil.getConfiguration(robotStart))) {
             info.setText("The robot is colliding with the environment. Please reposition the robot");
             return;
         }
@@ -112,7 +110,7 @@ public class PrimaryController {
     @FXML
     private void setPlacingFinished() {
         // If the robot collides -> show warning text
-        if (workspace.isInCollision(robotEnd, env, null)) {
+        if (workspace.isInCollision(PixelConverterUtil.getConfiguration(robotEnd))) {
             info.setText("The robot is colliding with the environment. Please re-position the robot");
             return;
         }
@@ -124,8 +122,8 @@ public class PrimaryController {
 
     @FXML
     private void onMouseExited() {
-        if (placementFinished && !workspace.isInCollision(robotStart, env, null)
-                && !workspace.isInCollision(robotEnd, env, null)) {
+        if (placementFinished && !workspace.isInCollision(PixelConverterUtil.getConfiguration(robotStart))
+                && !workspace.isInCollision(PixelConverterUtil.getConfiguration(robotEnd))) {
             info.setText("Great! Now you can plan the motion");
         }
     }
@@ -159,7 +157,7 @@ public class PrimaryController {
         Vector goalConfig = new Vector((int) robotEnd.getTranslateX(), (int) robotEnd.getTranslateY());
         configSpace.setAndDrawGoalConfig(goalConfig, csCanvas);
 
-        configSpace.initSolutionPath();
+        configSpace.initSolutionPath(initialConfig, goalConfig, workspace);
         configSpace.drawSolutionPath(csCanvas);
 
         // Show slider and robot's movement
