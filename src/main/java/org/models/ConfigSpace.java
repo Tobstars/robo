@@ -59,9 +59,9 @@ public class ConfigSpace {
 
     }
 
-    public void initSolutionPath(Vector initialConfig, Vector goalConfig, Workspace workspace) {
-        while (true) {
-            List<Vector> path = SPRMMotionPlanner.planMotion(initialConfig, goalConfig, 20, 6000, workspace);
+    public void calculateSolutionPath(Vector initialConfig, Vector goalConfig, Workspace workspace, int samples, int radius, int iterations) {
+        for (int i = 0; i < iterations; i++) {
+            List<Vector> path = SPRMMotionPlanner.planMotion(initialConfig, goalConfig, radius, samples, workspace);
             if (path != null) {
                 solutionPath = path;
                 break;

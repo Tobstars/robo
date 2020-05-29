@@ -3,6 +3,7 @@ package org.openjfx;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +35,13 @@ public class PrimaryController {
     @FXML
     StackPane csPane;
     Canvas csCanvas;
+    @FXML
+    TextField samples;
+    @FXML
+    TextField radius;
+    @FXML
+    TextField iterations;
+
 
     // MODELS
     Workspace workspace;
@@ -157,7 +165,8 @@ public class PrimaryController {
         Vector goalConfig = new Vector((int) robotEnd.getTranslateX(), (int) robotEnd.getTranslateY());
         configSpace.setAndDrawGoalConfig(goalConfig, csCanvas);
 
-        configSpace.initSolutionPath(initialConfig, goalConfig, workspace);
+        configSpace.calculateSolutionPath(initialConfig, goalConfig, workspace, Integer.parseInt(samples.getText()),
+                Integer.parseInt(radius.getText()), Integer.parseInt(iterations.getText()));
         configSpace.drawSolutionPath(csCanvas);
 
         // Show slider and robot's movement

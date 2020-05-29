@@ -3,7 +3,6 @@ package org.models.services;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.models.ConfigSpace;
@@ -40,9 +39,10 @@ public class SPRMMotionPlanner {
         Graph<Vector, DefaultWeightedEdge> graph = createGraph();
         GraphPath<Vector, DefaultWeightedEdge> path = DijkstraShortestPath.findPathBetween(graph, cInit, cGoal);
         if (path == null) {
-            System.err.println("Es konnte kein Weg gefunden werden");
+            System.out.println("ERROR: No solution path was found");
             return null;
         } else {
+            System.out.println("SUCCESS: A solution path was found");
             return path.getVertexList();
         }
     }

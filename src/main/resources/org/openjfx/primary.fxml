@@ -8,15 +8,17 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.97" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.PrimaryController">
+<SplitPane dividerPositions="0.9681238615664846" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.PrimaryController">
   <items>
-      <TabPane tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefWidth="705.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Workspace">
             <content>
@@ -79,7 +81,7 @@
           </Tab>
         </tabs>
       </TabPane>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+      <VBox alignment="TOP_CENTER" prefHeight="798.0" prefWidth="383.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#openFileChooser" prefHeight="40.0" prefWidth="160.0" text="Load Environment">
                <font>
@@ -93,6 +95,36 @@
                <font>
                   <Font size="14.0" />
                </font></Button>
+            <HBox alignment="CENTER" prefHeight="31.0" prefWidth="385.0">
+               <children>
+                  <Label prefHeight="24.0" prefWidth="58.0" text="Samples">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="samples" prefHeight="25.0" prefWidth="69.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="31.0" prefWidth="385.0">
+               <children>
+                  <Label prefHeight="24.0" prefWidth="58.0" text="Radius">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="radius" prefHeight="25.0" prefWidth="69.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="31.0" prefWidth="385.0">
+               <children>
+                  <Label prefHeight="24.0" prefWidth="58.0" text="Iterations">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="iterations" prefHeight="25.0" prefWidth="69.0" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets top="10.0" />
