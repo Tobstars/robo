@@ -33,9 +33,6 @@ public class Workspace {
     }
 
     public void drawRobotOnSolutionPath(List<Vector> solutionPath, StackPane pane, ImageView robot) {
-        if (pathSlider != null) {
-            return;
-        }
         pathSlider = new Slider(0, solutionPath.size() - 1, 0);
         pathSlider.setMaxHeight(800);
         pathSlider.setPadding(new Insets(0, 100, 0, 0));
