@@ -165,7 +165,12 @@ public class PrimaryController {
         Vector goalConfig = new Vector((int) robotEnd.getTranslateX(), (int) robotEnd.getTranslateY());
         configSpace.setAndDrawGoalConfig(goalConfig, csCanvas);
 
-        configSpace.calculateSolutionPath(initialConfig, goalConfig, workspace, Integer.parseInt(samples.getText()),
+        // only check samples because it is not necessary for RRTMotionPlanner
+        int samplesNum = 3000;
+        if (samples != null) {
+            samplesNum = Integer.parseInt(samples.getText());
+        }
+        configSpace.calculateSolutionPath(initialConfig, goalConfig, workspace, samplesNum,
                 Integer.parseInt(radius.getText()), Integer.parseInt(iterations.getText()));
         configSpace.drawSolutionPath(csCanvas);
 

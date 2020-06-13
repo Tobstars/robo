@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import org.models.services.RRTMotionPlanner;
 import org.models.services.SPRMMotionPlanner;
 
 import java.util.ArrayList;
@@ -61,7 +62,12 @@ public class ConfigSpace {
 
     public void calculateSolutionPath(Vector initialConfig, Vector goalConfig, Workspace workspace, int samples, int radius, int iterations) {
         for (int i = 0; i < iterations; i++) {
-            List<Vector> path = SPRMMotionPlanner.planMotion(initialConfig, goalConfig, radius, samples, workspace);
+            List<Vector> path;
+            if (true) {
+                path = SPRMMotionPlanner.planMotion(initialConfig, goalConfig, radius, samples, workspace);
+            } else {
+                path = RRTMotionPlanner.planMotion(initialConfig, goalConfig, radius, 60, workspace);
+            }
             if (path != null) {
                 solutionPath = path;
                 break;

@@ -12,6 +12,11 @@ public class Vector {
         this.y = y;
     }
 
+    public double getLength() {
+        double sum = Math.pow(x, 2) + Math.pow(y, 2);
+        return Math.sqrt(sum);
+    }
+
     public int getX() {
         return x;
     }

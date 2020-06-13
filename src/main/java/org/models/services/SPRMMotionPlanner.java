@@ -25,10 +25,10 @@ public class SPRMMotionPlanner {
     }
 
     public static List<Vector> planMotion(Vector cInit, Vector cGoal, double radius, int samples, Workspace workspace) {
-        return new SPRMMotionPlanner(workspace).executeSPRM(cInit, cGoal, radius, samples);
+        return new SPRMMotionPlanner(workspace).execute(cInit, cGoal, radius, samples);
     }
 
-    private List<Vector> executeSPRM(Vector cInit, Vector cGoal, double radius, int samples) {
+    private List<Vector> execute(Vector cInit, Vector cGoal, double radius, int samples) {
         addConfigurations(cInit, cGoal);
         createSamples(samples);
         buildRoadMap(radius);
@@ -73,7 +73,7 @@ public class SPRMMotionPlanner {
 
     private void getValidEdges(Vector vertex, List<Vector> neighbors) {
         for (Vector neighbor : neighbors) {
-            if (edgeIsValid(vertex, neighbor)) {
+            if (MotionPlannerUtil.edgeIsValid(vertex, neighbor, workspace)) {
                 Edge edge = new Edge(vertex, neighbor);
                 if (!edges.contains(edge)) {
                     edges.add(edge);
@@ -82,55 +82,13 @@ public class SPRMMotionPlanner {
         }
     }
 
-    private boolean edgeIsValid(Vector vertex, Vector neighbor) {
-        List<Vector> path = getStraightPath(vertex, neighbor);
-        return binarySearchEdgeIsValid(path, 0, path.size() - 1);
-    }
-
-    private boolean binarySearchEdgeIsValid(List<Vector> path, int left, int right) {
-        if (right >= left) {
-            int mid = left + (right - left) / 2;
-            if (workspace.isInCollision(path.get(mid))) {
-                return false;
-            }
-            boolean leftIsValid = binarySearchEdgeIsValid(path, left, mid - 1);
-            boolean rightIsValid = binarySearchEdgeIsValid(path, mid + 1, right);
-            if (leftIsValid && rightIsValid) {
-                return true;
-            }
-
-        }
-        return true;
-    }
-
-    private List<Vector> getStraightPath(Vector vertex, Vector neighbor) {
-        int resolution = Math.max(Math.abs(vertex.getX() - neighbor.getX()), Math.abs(vertex.getY() - neighbor.getY()));
-        Vector between = new Vector(neighbor.getX() - vertex.getX(), neighbor.getY() - vertex.getY());
-        List<Vector> pathPoints = calculatePathPoints(vertex, resolution, between);
-        return pathPoints;
-    }
-
-    private List<Vector> calculatePathPoints(Vector vertex, int resolution, Vector between) {
-        List<Vector> pathPoints = new ArrayList<>();
-        for (int i = 1; i < resolution; i++) {
-            Vector pathPoint = calculatePathPoint(vertex, between, i, resolution);
-            pathPoints.add(pathPoint);
-        }
-        return pathPoints;
-    }
-
-    private Vector calculatePathPoint(Vector vertex, Vector between, int i, int resolution) {
-        Vector round = new Vector((int) (((float) i / resolution) * between.getX()), (int) (((float) i / resolution) * between.getY()));
-        return new Vector(vertex.getX() + round.getX(), vertex.getY() + round.getY());
-    }
-
     private List<Vector> getNeighbors(Vector vertex, double radius) {
         List<Vector> neighbors = new ArrayList<>();
         for (Vector neighbor : this.vertex) {
             if (neighbor.equals(vertex)) {
                 continue;
             }
-            double distance = getDistance(vertex, neighbor);
+            double distance = MotionPlannerUtil.getDistance(vertex, neighbor);
             if (distance < radius) {
                 neighbors.add(neighbor);
             }
@@ -138,22 +96,18 @@ public class SPRMMotionPlanner {
         return neighbors;
     }
 
-    private double getDistance(Vector vertex, Vector neighbor) {
-        double y = Math.abs(neighbor.getY() - vertex.getY());
-        double x = Math.abs(neighbor.getX() - vertex.getX());
-        return Math.hypot(y, x);
-    }
-
     private void createSamples(int samples) {
-        for (int i = 0; i < samples; i++) {
+        int i = 0;
+        while (i < samples) {
             Random r = new Random();
             int randomX = r.nextInt(ConfigSpace.WIDTH + 1);
             int randomY = r.nextInt(ConfigSpace.HEIGHT + 1);
             Vector random = new Vector();
             random.setX(randomX);
             random.setY(randomY);
-            if (!vertex.contains(random)) {
+            if (!vertex.contains(random) && !workspace.isInCollision(random)) {
                 vertex.add(random);
+                i++;
             }
         }
     }
