@@ -30,7 +30,7 @@ public class SPRMMotionPlanner {
 
     private List<Vector> execute(Vector cInit, Vector cGoal, double radius, int samples) {
         addConfigurations(cInit, cGoal);
-        createSamples(samples);
+        createSamples(samples, true);
         buildRoadMap(radius);
         return findShortestPath(cInit, cGoal);
     }
@@ -96,19 +96,75 @@ public class SPRMMotionPlanner {
         return neighbors;
     }
 
-    private void createSamples(int samples) {
+    private void createSamples(int samples, boolean bridgeDist) {
+        if (bridgeDist) {
+            //TODO: check if mean can be deleted
+            //Generate 10% of samples with bridge and the others with normal distribution
+            int bridgeSamples = (int) (0.1 * samples);
+            createSamplesWithBridgeDist(bridgeSamples, 0, 1);
+            createSamplesWithNormalDist(samples - bridgeSamples);
+        } else {
+            createSamplesWithNormalDist(samples);
+        }
+    }
+
+    private void createSamplesWithBridgeDist(int samples, int mean, int derivation) {
         int i = 0;
         while (i < samples) {
             Random r = new Random();
-            int randomX = r.nextInt(ConfigSpace.WIDTH + 1);
-            int randomY = r.nextInt(ConfigSpace.HEIGHT + 1);
-            Vector random = new Vector();
-            random.setX(randomX);
-            random.setY(randomY);
+            Vector bridgeEdge1 = getRandomConfig(r);
+            if (workspace.isInCollision(bridgeEdge1)) {
+                Vector bridgeEdge2 = calculateSecondBridgeEdge(bridgeEdge1, r, derivation);
+                if (workspace.isInCollision(bridgeEdge2)) {
+                    Vector midPoint = calculateMidPoint(bridgeEdge1, bridgeEdge2);
+                    if (!workspace.isInCollision(midPoint)) {
+                        vertex.add(midPoint);
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+
+    private Vector calculateMidPoint(Vector bridgeEdge1, Vector bridgeEdge2) {
+        int midPointX = (bridgeEdge1.getX() + bridgeEdge2.getX()) / 2;
+        int midPointY = (bridgeEdge1.getY() + bridgeEdge2.getY()) / 2;
+        return new Vector(midPointX, midPointY);
+    }
+
+    private Vector calculateSecondBridgeEdge(Vector bridgeEdge1, Random r, int derivation) {
+        int bridgeEdgeX = calculateValidBridgeValue(bridgeEdge1.getX(), derivation, r, ConfigSpace.WIDTH);
+        int bridgeEdgeY = calculateValidBridgeValue(bridgeEdge1.getY(), derivation, r, ConfigSpace.HEIGHT);
+        return new Vector(bridgeEdgeX, bridgeEdgeY);
+    }
+
+    private int calculateValidBridgeValue(int value, int derivation, Random r, int max) {
+        while (true) {
+            int random = (int) (r.nextGaussian() * derivation + value);
+            if (random >= 0 && random <= max) {
+                return random;
+            }
+        }
+    }
+
+    private void createSamplesWithNormalDist(int samples) {
+        int i = 0;
+        while (i < samples) {
+            Random r = new Random();
+            Vector random = getRandomConfig(r);
             if (!vertex.contains(random) && !workspace.isInCollision(random)) {
                 vertex.add(random);
                 i++;
             }
         }
+    }
+
+    private Vector getRandomConfig(Random r) {
+        int randomX = r.nextInt(ConfigSpace.WIDTH + 1);
+        int randomY = r.nextInt(ConfigSpace.HEIGHT + 1);
+        Vector random = new Vector();
+        random.setX(randomX);
+        random.setY(randomY);
+        return random;
     }
 }
