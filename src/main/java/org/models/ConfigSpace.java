@@ -80,7 +80,7 @@ public class ConfigSpace {
 
     public void drawSolutionPath(Canvas csCanvas) {
         for (Vector vector : solutionPath) {
-            csCanvas.getGraphicsContext2D().getPixelWriter().setColor(vector.getX(), vector.getY(), Color.BLUE);
+            csCanvas.getGraphicsContext2D().getPixelWriter().setColor(vector.getX(), vector.getY(), Color.BLACK);
         }
     }
 

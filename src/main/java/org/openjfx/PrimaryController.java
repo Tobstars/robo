@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.common.PixelConverterUtil;
 import org.models.ConfigSpace;
@@ -163,6 +164,8 @@ public class PrimaryController {
         }
         // Clear config space canvas
         csCanvas.getGraphicsContext2D().clearRect(0, 0, csCanvas.getWidth(), csCanvas.getHeight());
+        csCanvas.getGraphicsContext2D().setFill(Color.WHITE);
+        csCanvas.getGraphicsContext2D().fillRect(0, 0, csCanvas.getWidth(), csCanvas.getHeight());
 
         Vector initialConfig = new Vector((int) robotStart.getTranslateX(), (int) robotStart.getTranslateY());
         configSpace.setAndDrawInitialConfig(initialConfig, csCanvas);
