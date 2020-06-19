@@ -3,7 +3,9 @@ package org.openjfx;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +43,8 @@ public class PrimaryController {
     TextField radius;
     @FXML
     TextField iterations;
+    @FXML
+    ToggleGroup algo;
 
 
     // MODELS
@@ -167,11 +171,13 @@ public class PrimaryController {
 
         // only check samples because it is not necessary for RRTMotionPlanner
         int samplesNum = 3000;
-        if (samples != null) {
+        if (samples != null && !samples.getText().equals("")) {
             samplesNum = Integer.parseInt(samples.getText());
         }
+        RadioButton algoRB = (RadioButton) algo.getSelectedToggle();
+        String algoString = algoRB.getText();
         configSpace.calculateSolutionPath(initialConfig, goalConfig, workspace, samplesNum,
-                Integer.parseInt(radius.getText()), Integer.parseInt(iterations.getText()));
+                Integer.parseInt(radius.getText()), Integer.parseInt(iterations.getText()), algoString);
         configSpace.drawSolutionPath(csCanvas);
 
         // Show slider and robot's movement

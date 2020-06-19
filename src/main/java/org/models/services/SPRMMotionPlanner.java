@@ -30,7 +30,8 @@ public class SPRMMotionPlanner {
 
     private List<Vector> execute(Vector cInit, Vector cGoal, double radius, int samples) {
         addConfigurations(cInit, cGoal);
-        createSamples(samples, true);
+        // CONFIGURE SAMPLING METHOD!!!
+        createSamples(samples, false);
         buildRoadMap(radius);
         return findShortestPath(cInit, cGoal);
     }

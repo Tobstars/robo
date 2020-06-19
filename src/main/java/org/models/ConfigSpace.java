@@ -60,16 +60,19 @@ public class ConfigSpace {
 
     }
 
-    public void calculateSolutionPath(Vector initialConfig, Vector goalConfig, Workspace workspace, int samples, int radius, int iterations) {
+    public void calculateSolutionPath(Vector initialConfig, Vector goalConfig, Workspace workspace, int samples, int radius, int iterations, String algo) {
+        System.out.println(algo);
         for (int i = 0; i < iterations; i++) {
             List<Vector> path;
-            if (true) {
+            if (algo.equals("SPRM Motion Planner")) {
                 path = SPRMMotionPlanner.planMotion(initialConfig, goalConfig, radius, samples, workspace);
             } else {
-                path = RRTMotionPlanner.planMotion(initialConfig, goalConfig, radius, 60, workspace);
+                path = RRTMotionPlanner.planMotion(initialConfig, goalConfig, radius, 80, workspace);
             }
             if (path != null) {
                 solutionPath = path;
+                System.out.println("Solution Path: ");
+                path.forEach(v -> System.out.println("[" + v.getX() + "," + v.getY() + "]"));
                 break;
             }
         }

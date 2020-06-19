@@ -24,6 +24,7 @@ public class MotionPlannerUtil {
         return true;
     }
 
+    // Outdated and should be fixed
     public static boolean binaryTreeEdgeIsValid(Vector vertex, Vector neighbor, Workspace workspace) {
         List<Vector> path = getStraightPath(vertex, neighbor);
         return binarySearchEdgeIsValid(path, 0, path.size() - 1, workspace);
